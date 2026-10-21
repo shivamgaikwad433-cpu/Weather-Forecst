@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101a36">
+  <meta name="description" content="A clear, real-time weather dashboard with current conditions and a five-day forecast.">
+  <title>SkyCast — Weather Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-theme="dark" data-condition="clear">
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="SkyCast home"><span class="brand-mark" aria-hidden="true">☼</span><span>skycast<span class="brand-dot">.</span></span></a>
+    <div class="header-actions">
+      <button class="icon-button" id="theme-toggle" type="button" aria-label="Switch to light theme" title="Toggle light/dark mode"><span aria-hidden="true">☼</span></button>
+      <div class="unit-toggle" role="group" aria-label="Temperature unit">
+        <button type="button" class="unit-button active" data-unit="metric" aria-pressed="true">°C</button>
+        <button type="button" class="unit-button" data-unit="imperial" aria-pressed="false">°F</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="dashboard">
+    <section class="intro" aria-labelledby="page-title">
+      <div><p class="eyebrow">YOUR WEATHER, AT A GLANCE</p><h1 id="page-title">Good weather starts <span>here.</span></h1><p class="intro-copy">A little clarity for whatever the sky has planned.</p></div>
+      <div class="live-indicator"><span></span> LIVE CONDITIONS</div>
+    </section>
+
+    <section class="search-panel glass" aria-label="Find a city">
+      <form id="search-form" autocomplete="off">
+        <label class="search-field"><span class="search-icon" aria-hidden="true">⌕</span><span class="visually-hidden">Search city</span><input id="city-search" type="search" placeholder="Search a city…" aria-label="Search for a city" aria-autocomplete="list" aria-controls="suggestions" aria-expanded="false"><button class="clear-search" type="button" id="clear-search" aria-label="Clear search" hidden>×</button></label>
+        <button class="search-button" type="submit">Search <span aria-hidden="true">→</span></button>
+        <button class="location-button" type="button" id="location-button" aria-label="Use my current location"><span aria-hidden="true">◎</span><span class="location-label">My location</span></button>
+      </form>
+      <ul id="suggestions" class="suggestions" role="listbox" aria-label="City suggestions" hidden></ul>
+    </section>
+    <p id="status-message" class="status-message" role="status" aria-live="polite"></p>
+
+    <section class="weather-layout" aria-label="Weather information">
+      <article class="current-card glass" id="current-card" aria-labelledby="current-city">
+        <div class="current-top"><div><p class="eyebrow" id="current-date">TODAY</p><h2 id="current-city">Pune, IN</h2><p class="local-time" id="local-time">—</p></div><span class="current-icon" id="current-icon" role="img" aria-label="Current weather">☀️</span></div>
+        <div class="temperature-row"><span class="temperature" id="temperature">--</span><span class="degree">°<span id="degree-unit">C</span></span></div>
+        <p class="condition" id="condition">Fetching the latest conditions…</p>
+        <p class="feels-like">Feels like <span id="feels-like">--°</span></p>
+        <div class="sun-times"><div><span aria-hidden="true">↗</span><span>Sunrise</span><strong id="sunrise">—</strong></div><div><span aria-hidden="true">↘</span><span>Sunset</span><strong id="sunset">—</strong></div></div>
+      </article>
+
+      <section class="details-card glass" aria-labelledby="details-heading"><div class="section-heading"><div><p class="eyebrow">RIGHT NOW</p><h2 id="details-heading">The details</h2></div><span class="section-icon" aria-hidden="true">✳</span></div>
+        <div class="detail-grid">
+          <div class="detail-item"><span class="detail-symbol humidity" aria-hidden="true">◉</span><div><span>Humidity</span><strong id="humidity">--%</strong></div></div>
+          <div class="detail-item"><span class="detail-symbol wind" aria-hidden="true">〰</span><div><span>Wind</span><strong id="wind">--</strong></div></div>
+          <div class="detail-item"><span class="detail-symbol pressure" aria-hidden="true">◌</span><div><span>Pressure</span><strong id="pressure">-- hPa</strong></div></div>
+          <div class="detail-item"><span class="detail-symbol visibility" aria-hidden="true">◎</span><div><span>Visibility</span><strong id="visibility">--</strong></div></div>
+        </div>
+      </section>
+    </section>
+
+    <section class="forecast-section glass" aria-labelledby="hourly-heading"><div class="section-heading compact"><div><p class="eyebrow">THE NEXT 24 HOURS</p><h2 id="hourly-heading">Hourly forecast</h2></div><span class="forecast-note">3-hour outlook</span></div><div id="hourly-list" class="hourly-list" aria-live="polite"></div></section>
+
+    <section class="forecast-section glass" aria-labelledby="daily-heading"><div class="section-heading compact"><div><p class="eyebrow">PLAN AHEAD</p><h2 id="daily-heading">5-day forecast</h2></div><span class="forecast-note">Min / max</span></div><div id="daily-list" class="daily-list" aria-live="polite"></div></section>
+
+    <section class="extras-grid">
+      <section class="recent-card glass" aria-labelledby="recent-heading"><div class="section-heading compact"><div><p class="eyebrow">QUICK ACCESS</p><h2 id="recent-heading">Recent places</h2></div><span class="section-icon" aria-hidden="true">↺</span></div><ul id="recent-list" class="recent-list"><li class="empty-recent">Your recent searches will appear here.</li></ul></section>
+      <section class="tip-card glass" aria-labelledby="tip-heading"><span class="tip-icon" aria-hidden="true">✦</span><div><p class="eyebrow">A SKYCAST NOTE</p><h2 id="tip-heading">Stay a step ahead.</h2><p>Check back before you head out. The forecast updates with the latest conditions for your city.</p></div></section>
+    </section>
+  </main>
+  <footer>Built for ISA Web Development Coordinator Pre-Interview Task <span>·</span> Weather data by OpenWeatherMap</footer>
+  <script src="config.js"></script>
+  <script src="script.js" defer></script>
+</body>
+</html>
